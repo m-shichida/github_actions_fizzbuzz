@@ -4,40 +4,6 @@ on: push
 jobs:
   unit-test:
     name: Unit Test
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        node: [10, 12]
-    runs-on: ${{ matrix.os }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2.0.0
-      - name: Set Node.js ${{ matrix.node }}
-        uses: actions/setup-node@v1.3.0
-        with:
-          node-version: ${{ matrix.node }}
-      - name: Get NPM cache directory
-        id: npm-cache
-        run: |
-          echo "::set-output name=dir::$(npm config get cache)"
-      - name: Cache NPM
-        uses: actions/cache@v1.1.0
-        with:
-          path: ${{ steps.npm-cache.outputs.dir }}
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-      - name: Install dependencies
-        run: npm ci
-      - name: Test
-        run: npm test
-      - name: Upload test coverage
-        uses: actions/upload-artifact@v1.0.0
-        with:
-          name: test-coverage-${{ matrix.os }}-${{ matrix.node }}
-          path: coverage
-  lint:
-    name: Lint
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -46,18 +12,22 @@ jobs:
         uses: actions/setup-node@v1.3.0
         with:
           node-version: 12.x
-      - name: Get NPM cache directory
-        id: npm-cache
-        run: |
-          echo "::set-output name=dir::$(npm config get cache)"
-      - name: Cache NPM
-        uses: actions/cache@v1.1.0
+      - name: Instatll dependencies
+        run: npm ci
+      - name: Text
+        run: npm test
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@2.0.0
+      - name: Set Node.js 12.x
+        uses: actions/setup-node@v1.3.0
         with:
-          path: ${{ steps.npm-cache.outputs.dir }}
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-      - name: Install dependencies
+          node-version: 12.x
+      - name: Instatll dependencies
         run: npm ci
       - name: Lint
         run: npm run lint
