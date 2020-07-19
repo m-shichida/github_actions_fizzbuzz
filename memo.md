@@ -125,3 +125,5 @@ jobs:
 ```
 
 # キャッシュ機能を使ってビルドを早くする
+actions/cacheレポジトリで公開してるとのこと。
+[URL](https://github.com/actions/cache)
