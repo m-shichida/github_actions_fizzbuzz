@@ -128,3 +128,12 @@ jobs:
 actions/cacheレポジトリで公開してるとのこと。
 [URL](https://github.com/actions/cache)
 [言語ごとのキャッシュ方法](https://github.com/actions/cache/blob/master/examples.md)
+
+# pull_requestのデフォルトアクティビティ
+pull_requestのデフォルトでは、以下の３つのアクティビティのみワークフローが実行される。
+
+- opened: プルリクエストが作成されたとき
+- synchronize: プルリクエストが新しいpushで更新された時
+- reopened: プルリクエストがリオープンされた時
+
+それ以外にもプルリクエストのラベルに変更があった時(labeled)など他のオプションもある。

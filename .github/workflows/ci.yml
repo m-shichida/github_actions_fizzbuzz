@@ -1,49 +1,12 @@
-name: Continuous Integration
+name: Test
 on: push
 
 jobs:
-  unit-test:
-    name: Unit Test
+  test:
     runs-on: ubuntu-latest
+    name: test
     steps:
       - name: Checkout
         uses: actions/checkout@v2.0.0
-      - name: Set Node.js 12.x
-        uses: actions/setup-node@v1.3.0
-        with:
-          node-version: 12.x
-      - name: Get NPM cache directory
-        id: npm-cache
-        run: |
-          echo "::set-output name=dir::$(npm config get cache)"
-      - name: Cache NPM
-        uses: actions/cache@v1.1.0
-        with:
-          path: ${{ steps.npm-cache.outputs.dir }}
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-      - name: Instatll dependencies
-        run: npm ci
-      - name: Test
-        run: npm test
-      - name: Upload test coverage
-        uses: actions/upload-artifact@v2
-        with:
-          name: test-coverage-${{ matrix.os }}-${{ matrix.node }}
-          path: coverage
-
-  lint:
-    name: Lint
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2.0.0
-      - name: Set Node.js 12.x
-        uses: actions/setup-node@v1.3.0
-        with:
-          node-version: 12.x
-      - name: Instatll dependencies
-        run: npm ci
-      - name: Lint
-        run: npm run lint
+      - name: Verify hello action works
+        uses: ./
